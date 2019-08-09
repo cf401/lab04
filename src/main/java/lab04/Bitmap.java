@@ -28,8 +28,6 @@ public class Bitmap{
     }
 
 
-
-
     public BufferedImage seeBMPImage(String path) throws IOException {
         try {
             File bmp = new File(path);
