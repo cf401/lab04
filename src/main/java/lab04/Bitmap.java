@@ -2,6 +2,7 @@ package lab04;
 
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,7 +16,7 @@ public class Bitmap{
 
     //bitmap constructor
     public Bitmap(String path) throws IOException {
-        this.image = seeBMPImage(path);
+        this.image = readBMPImage(path);
     }
 
     public void writeOut(){
@@ -27,29 +28,25 @@ public class Bitmap{
         }
     }
 
+    public void changeColor(){
+        BufferedImage result = new BufferedImage(
+                this.image.getWidth(),
+                this.image.getHeight(),
+                BufferedImage.TYPE_BYTE_BINARY);
 
-    public BufferedImage seeBMPImage(String path) throws IOException {
+        Graphics2D graphic = result.createGraphics();
+        graphic.drawImage(this.image, 0, 0, Color.WHITE, null);
+        graphic.dispose();
+        this.image = result;
+    }
+
+
+    public BufferedImage readBMPImage(String path) throws IOException {
         try {
             File bmp = new File(path);
             //grab our file from path, read as a stream.
             BufferedImage image = ImageIO.read(bmp);
 
-            //hold our bits as a 2d array
-            int[][] array2D = new int[66][66];
-
-            for (int xPixel = 0; xPixel < array2D.length; xPixel++)
-            {
-                for (int yPixel = 0; yPixel < array2D[xPixel].length; yPixel++)
-                {
-                    int color = image.getRGB(xPixel, yPixel);
-                    if ((color >> 23) == 1) {
-                        array2D[xPixel][yPixel] = 1;
-                    } else {
-                        array2D[xPixel][yPixel] = 1;
-                    }
-                }
-            }
-            System.out.println(Arrays.toString((array2D)));
             return image;
         }
         catch (FileNotFoundException e){
