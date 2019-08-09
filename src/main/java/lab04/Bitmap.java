@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 public class Bitmap{
 
+    //instance variables
     private BufferedImage image;
 
     //bitmap constructor
@@ -19,16 +20,17 @@ public class Bitmap{
         this.image = readBMPImage(path);
     }
 
-    public void writeOut(){
+    //instance methods
+    public void writeOut(String file){
         try {
-            ImageIO.write(this.image, "BMP", new File("./src/main/resources/CoffeeNew.bmp"));
+            ImageIO.write(this.image, "BMP", new File("./src/main/resources/" + file + ".bmp"));
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    public void changeColor(){
+    public void blackAndWhite(){
         BufferedImage result = new BufferedImage(
                 this.image.getWidth(),
                 this.image.getHeight(),
@@ -38,6 +40,14 @@ public class Bitmap{
         graphic.drawImage(this.image, 0, 0, Color.WHITE, null);
         graphic.dispose();
         this.image = result;
+    }
+
+    public void paintViolet() {
+        for ( int i = 0; i < this.image.getWidth(); i++){
+            for (int j = 0 ; j < this.image.getHeight(); j++){
+                this.image.setRGB(i,j,new Color(197, 196, 250).getRGB());
+            }
+        }
     }
 
 

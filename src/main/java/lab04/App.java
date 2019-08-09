@@ -11,14 +11,17 @@ public class App {
     }
 
     public static void main(String[] args) throws IOException {
-
+        //create bitmap and populate from path.
         Bitmap bmp = new Bitmap("./src/main/resources/Coffee.bmp");
-        bmp.changeColor();
-        bmp.writeOut();
+        //make a black and white image
+        bmp.blackAndWhite();
+        bmp.writeOut("blackWhite");
+        //make a violet masterpiece
+        bmp.paintViolet();
+        bmp.writeOut("violet");
 
         //int x = bmp2.getImage()
     }
-
 
     //input from a bmp file
     //confirm we can see values in from the file input
