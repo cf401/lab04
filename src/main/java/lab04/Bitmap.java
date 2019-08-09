@@ -1,136 +1,62 @@
 package lab04;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
+
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.StringTokenizer;
-import java.io.Serializable;
+import java.util.Arrays;
 
+public class Bitmap{
 
-public class Bitmap implements Serializable{
-    private int[][] bits;
-    private int  columns;
-    private int rows;
+    private BufferedImage image;
 
-    /**
-     * Get the Rows value.
-     * @return the Rows value.
-     */
-    public int getRows() {
-        return rows;
+    //bitmap constructor
+    public Bitmap(String path) throws IOException {
+        this.image = seeBMPImage(path);
     }
 
+    public void writeOut(){
+        try {
+            ImageIO.write(this.image, "BMP", new File("./src/main/resources/CoffeeNew.bmp"));
 
-    /**
-     * Get the Columns value.
-     * @return the Columns value.
-     */
-    public int getColumns() {
-        return columns;
-    }
-
-    public boolean isSet(int i, int j){
-        return (bits[i][j]!=0);
-    }
-
-    public void flip(int i, int j){
-        if (bits[i][j] == 0){
-            bits[i][j]=1;
-        } else {
-            bits[i][j]=0;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
 
-    Bitmap(){
-        this(0,0);
-    }
-    Bitmap(int rows, int cols){
-        bits=new int[rows][columns];
-    }
 
-    Bitmap(String filename) throws IOException{
-        readFile(filename);
-    }
 
-    public void readFile(String filename) throws IOException{
-        BufferedReader infile=  new BufferedReader(new FileReader(filename));
+    public BufferedImage seeBMPImage(String path) throws IOException {
+        try {
+            File bmp = new File(path);
+            //grab our file from path, read as a stream.
+            BufferedImage image = ImageIO.read(bmp);
 
-        String firstLine = infile.readLine();
+            //hold our bits as a 2d array
+            int[][] array2D = new int[66][66];
 
-        if (!firstLine.equals("P1"))
-            throw new IOException("File format error");
-
-        StringTokenizer tokens = new StringTokenizer(infile.readLine(), " ");
-
-        columns=Integer.parseInt(tokens.nextToken());
-        rows=Integer.parseInt(tokens.nextToken());
-
-        bits=new int[rows][columns];
-
-        for (int i=0; i< rows; i++){
-            String line=infile.readLine();
-
-            for (int j=0; j<columns; j++){
-                bits[i][j]=line.charAt(j)-'0';
-            }
-        }
-    }
-    private boolean isIsolated(int row,int col,int threshold){
-        int found=0;
-
-        if (bits[row][col]==0) {
-            return false;
-        }
-
-        for (int i=row-1; i<=row+1; i++){
-            for (int j=col-1; j<= col+1; j++){
-                if (i>=0 && j>=0 && i< rows && j<columns) {
-                    found +=bits[i][j];
+            for (int xPixel = 0; xPixel < array2D.length; xPixel++)
+            {
+                for (int yPixel = 0; yPixel < array2D[xPixel].length; yPixel++)
+                {
+                    int color = image.getRGB(xPixel, yPixel);
+                    if ((color >> 23) == 1) {
+                        array2D[xPixel][yPixel] = 1;
+                    } else {
+                        array2D[xPixel][yPixel] = 1;
+                    }
                 }
             }
+            System.out.println(Arrays.toString((array2D)));
+            return image;
         }
-        return (found<=threshold);
-    }
-    public void filter(int threshold){
-        for (int i=0; i< rows; i++){
-            for (int j=0; j<columns; j++){
-                if (isIsolated(i,j,threshold)){
-                    bits[i][j]=0;
-                }
-            }
+        catch (FileNotFoundException e){
+            System.out.println("File was not found.");
         }
-    }
-    public String toString(){
-
-        String result="";
-
-        for (int i=0; i< rows; i++){
-            for (int j=0; j<columns; j++){
-                if (bits[i][j]==1)
-                    result += "*";
-                else
-                    result += " ";
-            }
-            result +="\n";
-        }
-        return result;
-    }
-    public static void main(String [] args) throws IOException{
-        Bitmap unbLogo=new Bitmap ("./src/main/resources/Coffee.bmp");
-        System.out.println(unbLogo);
-        System.out.println("\f");
-//        /Users/danikinn/Desktop/codefellows/401/lab04/src/main/resources/Coffee.bmp
-//        unbLogo.filter(1);
-//        System.out.println(unbLogo);
-//        System.out.println("\f");
-//        unbLogo=new Bitmap ("noisy.pbm");
-//        unbLogo.filter(2);
-//        System.out.println(unbLogo);
-//        System.out.println("\f");
-//        unbLogo=new Bitmap ("noisy.pbm");
-//        unbLogo.filter(4);
-//        System.out.println(unbLogo);
-
+        return null;
     }
 }
