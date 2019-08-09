@@ -3,8 +3,6 @@
 
 package lab04;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 public class App {
@@ -13,14 +11,13 @@ public class App {
     }
 
     public static void main(String[] args) throws IOException {
-//        seeBMPImage("./src/main/resources/Coffee.bmp");
+
         Bitmap bmp = new Bitmap("./src/main/resources/Coffee.bmp");
+        bmp.changeColor();
         bmp.writeOut();
+
         //int x = bmp2.getImage()
     }
-
-//
-
 
 
     //input from a bmp file
