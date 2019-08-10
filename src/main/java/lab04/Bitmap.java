@@ -20,6 +20,11 @@ public class Bitmap{
         this.image = readBMPImage(path);
     }
 
+    //overloaded constructor
+    public Bitmap(BufferedImage result) throws IOException {
+        this.image = result;
+    }
+
     //instance methods
     public void writeOut(String file){
         try {
