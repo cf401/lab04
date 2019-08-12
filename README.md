@@ -13,6 +13,7 @@ color or raster transforms and then write it out to a new file.
 ## Credits & Contribution
 [How to write Images](https://blog.idrsolutions.com/2018/08/how-to-write-out-bmp-images-in-java/)  
 [How to read Images](https://blog.idrsolutions.com/2017/03/how-to-read-bmp-images-in-java/)
+[Flip Image](https://stackoverflow.com/questions/37706228/flipping-a-bufferedimage-horizontally)
 * Brandon Hurrington
 * Marisha Hoza
 * Matt Stuhring
