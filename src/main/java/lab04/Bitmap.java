@@ -6,26 +6,24 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 
 public class Bitmap{
 
-    //instance variables
+//  Instance variables
     private BufferedImage image;
 
-    //bitmap constructor
+//  Bitmap constructor
     public Bitmap(String path) throws IOException {
         this.image = readBMPImage(path);
     }
 
-    //overloaded constructor
+//  Overloaded constructor
     public Bitmap(BufferedImage result) throws IOException {
         this.image = result;
     }
 
-    //instance methods
+//  Instance methods
     public void writeOut(String file){
         try {
             ImageIO.write(this.image, "BMP", new File("./src/main/resources/" + file + ".bmp"));
@@ -34,7 +32,7 @@ public class Bitmap{
             e.printStackTrace();
         }
     }
-
+//  First Transformation : Black & White
     public void blackAndWhite(){
         BufferedImage result = new BufferedImage(
                 this.image.getWidth(),
@@ -46,7 +44,7 @@ public class Bitmap{
         graphic.dispose();
         this.image = result;
     }
-
+//  Second Transformation : Paint Violet
     public void paintViolet() {
         for ( int i = 0; i < this.image.getWidth(); i++){
             for (int j = 0 ; j < this.image.getHeight(); j++){
@@ -55,7 +53,19 @@ public class Bitmap{
         }
     }
 
+//  Third Transformation : Make It Flip
+    public void  makeItFlip() {
+        BufferedImage result = new BufferedImage(
+                this.image.getWidth(),
+                this.image.getHeight(),
+                BufferedImage.TYPE_INT_ARGB);
 
+        Graphics2D gg = result.createGraphics();
+        gg.drawImage(this.image, this.image.getHeight(), 0, -this.image.getWidth(), this.image.getHeight(), null);
+        gg.dispose();
+    }
+
+//  Read's BMP image
     public BufferedImage readBMPImage(String path) throws IOException {
         try {
             File bmp = new File(path);

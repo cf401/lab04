@@ -21,6 +21,9 @@ public class App {
             //make a violet masterpiece
             bmp.paintViolet();
             bmp.writeOut("violet");
+            //flip image
+            bmp.makeItFlip();
+            bmp.writeOut("flipIt");
         }
         else {
             //run with command line args
@@ -40,10 +43,18 @@ public class App {
                 bmp.blackAndWhite();
                 bmp.writeOut("blackWhite");
             }
+            else if(args[2].equals("flipIt")) {
+                //create bitmap and populate from path.
+                Bitmap bmp = new Bitmap(path);
+                //flip image
+                bmp.makeItFlip();
+                bmp.writeOut("flipIt");
+            }
             else {
                 System.out.println("please choose a valid transform:");
                 System.out.println("1. violet:");
                 System.out.println("2. black:");
+                System.out.println("3. flip:");
             }
         }
     }
